@@ -20,60 +20,37 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity(name = "courses")
+@Entity(name = "lessons")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CoursesEntity {
+
+public class LessonsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long courseId;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private long lessonId;
 
     @Column(nullable = false, length = 100)
-    private String courseName;
+    private String lessonTitle; 
 
     @Lob
-    private String description;
-    
+    private String content;
+
     // @Column(length = 11)
-    // private int instructorId;
+    // private int courseId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instructor_id", referencedColumnName = "userId")
-    private UserEntity instructorId;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(
-        cascade = CascadeType.ALL,
-        fetch = FetchType.EAGER,
-        mappedBy = "courseId",
-        orphanRemoval = false 
-    )
-    private List<EnrollmentsEntity> enrollment;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(
-        cascade = CascadeType.ALL,
-        fetch = FetchType.EAGER,
-        mappedBy = "courseId",
-        orphanRemoval = false 
-    )
-    private List<MessagesEntity> message;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(
-        cascade = CascadeType.ALL,
-        fetch = FetchType.EAGER,
-        mappedBy = "courseId",
-        orphanRemoval = false 
-    )
-    private List<LessonsEntity> lesson;
-
+    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+    private CoursesEntity courseId;
     
-
-
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(
+        cascade = CascadeType.ALL,
+        fetch = FetchType.EAGER,
+        mappedBy = "lessonId",
+        orphanRemoval = false
+    )
+    private List<AssignmentsEntity> asignmentlessonId;
 }
